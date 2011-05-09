@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="verify-v1" content="J75JQ+WGFRjBEnhNT4hhYxgVTQmRHjd0v3JF+izUFvA=" >
-	<title>Heroku | <%=h @title %></title>
+	<title>Sitepass | <%=h @title %></title>
 	<link type="text/css" rel="stylesheet" href="/css/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="/stylesheets/coderay.css" media="screen" />
 	<script type="text/javascript" src="/javascripts/jquery-1.3.2.min.js"></script>
@@ -18,9 +17,12 @@
 		});
 
 	</script>
+        
 </head>
 <body>
-
+<div id="persistant-header">
+  <h1>Site<span>Pass</span><span class="scrypty">&nbsp;Docs</span></h1>
+</div>
 <div id="bodywrap">
 	<div id="docsnav">
 		<form action="/search">
@@ -53,20 +55,27 @@
 		</div>
 	</div>
 </div>
-
-<% if request.host == 'docs.heroku.com' %>
-<!-- google analytics -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+<script type='text/javascript'>
+var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E'));
 </script>
-<script type="text/javascript">
-try{
-var pageTracker = _gat._getTracker("UA-2989055-1");
-pageTracker._setDomainName(".heroku.com");
-pageTracker._trackPageview();
-} catch(err) {}
+<script type='text/javascript'>
+try { 
+var mpmetrics = new MixpanelLib('10eefb96e8da1734fde2f72d412002ec');
+} catch(err) {
+null_fn = function () {};
+var mpmetrics = { 
+track: null_fn, 
+track_funnel: null_fn, 
+register: null_fn, 
+register_once: null_fn,
+register_funnel: null_fn
+};
+}
+mpmetrics.track("Docs", {
+  page : document.location.pathname,
+  hash : document.location.hash
+}); 
 </script>
-<% end %>
 </body>
 </html>

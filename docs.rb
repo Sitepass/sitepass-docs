@@ -5,9 +5,6 @@ require 'sass'
 require 'indextank'
 require './topic'
 
-require 'heroku/nav'
-use Heroku::Nav::Header
-
 # require 'rack/coderay'
 # use Rack::Coderay, "//pre[@lang]>code"
 
@@ -30,25 +27,9 @@ not_found do
 	erb :not_found
 end
 
-# REDIRECTS
-
-get '/getting-started' do
-  redirect '/heroku'
-end
-
-get '/memcached' do
-  redirect '/memcache'
-end
-
-get '/technologies' do
-  redirect '/aspen'
-end
-
-# 
-
 get '/' do
-	cache_long
-	haml :index
+  cache_long
+  erb :index
 end
 
 get '/search' do
@@ -102,6 +83,8 @@ helpers do
 	
 	def topic_file(topic)
 		if topic.include?('/')
+
+
 			topic
 		else
 			"#{options.root}/docs/#{topic}.txt"

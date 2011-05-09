@@ -1,0 +1,23 @@
+Integration Levels
+==================
+
+Simple Pointing
+---------------
+
+Add links to your UI that point to http://api.sitepass.com/auth/<your-developerid>/<your-provider> or, open popups at that location. The downside of doing it this way is that it's more apparent to the user what's going on.  They see api.sitepass.com in their navigation bar, if they use an OpenID based provider like Google they will see "api.sitepass.com is requesting information about you" and may be confused.  On the plus side this is the simplest to implement.
+
+
+CNAME Masking
+-------------
+
+You configure a DNS CNAME record to point to api.sitepass.com and let us know what that hostname is in your dashboard.  Then proceed like the Simple Pointing method.  The users should be less confused if you pick a good hostname to hide us with like "login.example.com" or "auth.example.com"  At minimum it appears as if Sitepass is part of your own infrastructure.
+
+
+Webserver Proxying
+------------------
+
+First, you let us know what hostname we are responding for in your developer dashboard on sitepass.com.  Then you configure your webserver to proxy all traffic that goes to /auth to api.sitepass.com/auth  In Apache with mod_proxy that would look like:
+
+    :::config
+    ProxyPass /auth http://api.sitepass.com/auth
+    ProxyPassReverse /auth http://api.sitepass.com/auth        
