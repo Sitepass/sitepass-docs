@@ -25,12 +25,6 @@
 </div>
 <div id="bodywrap">
 	<div id="docsnav">
-		<form action="/search">
-			<div id="search">
-				<input type="text" name="q" size="31" value="<%= params[:q] || '' %>" />
-			</div>
-		</form>
-
 		<ul>
 			<% sections.each do |slug, title, topics| %>
 				<li>

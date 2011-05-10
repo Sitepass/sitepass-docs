@@ -4,9 +4,7 @@ Ruby Quickstart
 An Example using Sinatra
 ------------------------
 
-Inside your developer dashboard there is a form for you to enter your callback location.  
-That full url must point to a location that takes a post and processes the SAML response.  
-In Sinatra that would look like this:
+Inside your developer dashboard there is a form for you to enter your callback location.  In this example you would use http;//your-domain.com/login That full url must point to a location that takes a post and processes the SAML response.  This is an example using Sinatra that would do that for you.
 
     :::ruby
     require 'rubygems'
@@ -15,13 +13,23 @@ In Sinatra that would look like this:
     class Application < Sinatra::Base
       
       post '/login' do
-        settings = Onelogin::Saml::Settings.new
-        settings.assertion_consumer_service_url = "" #your callback url
-        settings.idp_cert_fingerprint = "e019441a82f1f2ebfc42397aea85b7b5f398562c"
+        settings                        = Onelogin::Saml::Settings.new
+        settings.idp_cert_fingerprint   = "e019441a82f1f2ebfc42397aea85b7b5f398562c"
         settings.name_identifier_format = "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+
         response          = Onelogin::Saml::Response.new(params[:SAMLResponse])
         response.settings = settings
         session[:user_id] = response.name_id
+
         # ...
       end
     end
+
+You can now use the string found in session[:user_id] to uniquely identify the user.  Use that as a key to associate data with the user etc.
+
+If you're looking for data provided by Third Party Providers through Sitepass you look in response.attributes for example
+
+   :::ruby
+   @name  = response.attributes[:name]
+   @email = response.attributes[:email]
+
