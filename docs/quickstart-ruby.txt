@@ -13,9 +13,10 @@ Inside your developer dashboard there is a form for you to enter your callback l
     class Application < Sinatra::Base
       
       post '/login' do
-        settings                        = Onelogin::Saml::Settings.new
-        settings.idp_cert_fingerprint   = "e019441a82f1f2ebfc42397aea85b7b5f398562c"
-        settings.name_identifier_format = "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+        settings                                = Onelogin::Saml::Settings.new
+        settings.assertion_consumer_service_url = "http://#{request.host}/developer/login" # or whatever your path happens to be
+        settings.idp_cert_fingerprint           = "ec45d37118702355650d2f25e08548f83929b8b3"
+        settings.name_identifier_format         = "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
 
         response          = Onelogin::Saml::Response.new(params[:SAMLResponse])
         response.settings = settings
